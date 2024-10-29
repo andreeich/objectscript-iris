@@ -1,0 +1,100 @@
+ROUTINE InitData
+Start ; Entry point
+    Do CreateSampleData()
+    Quit
+
+CreateSampleData() Public {
+    Set sc = 0
+    
+    // Create Books
+    Set book1 = ##class(Library.Book).%New()
+    Set book1.ID = "B001"
+    Set book1.Title = "The Great Gatsby"
+    Set book1.PublicationDate = $ZDATEH("1925-04-10",3)
+    Set book1.CopiesAvailable = 3
+    Set book1.Author = "F. Scott Fitzgerald"
+    Set book1.PageCount = 180
+    Set book1.ISBN = "978-0743273565"
+    Set sc = book1.%Save()
+    Write !,"Book1 save status: ",sc
+    
+    Set book2 = ##class(Library.Book).%New()
+    Set book2.ID = "B002"
+    Set book2.Title = "1984"
+    Set book2.PublicationDate = $ZDATEH("1949-06-08",3)
+    Set book2.CopiesAvailable = 2
+    Set book2.Author = "George Orwell"
+    Set book2.PageCount = 328
+    Set book2.ISBN = "978-0451524935"
+    Set sc = book2.%Save()
+    Write !,"Book2 save status: ",sc
+    
+    // Create Magazines
+    Set mag1 = ##class(Library.Magazine).%New()
+    Set mag1.ID = "M001"
+    Set mag1.Title = "National Geographic"
+    Set mag1.PublicationDate = $ZDATEH("2024-01-15",3)
+    Set mag1.CopiesAvailable = 5
+    Set mag1.Publisher = "National Geographic Society"
+    Set mag1.IssueNumber = 1
+    Set sc = mag1.%Save()
+    Write !,"Magazine1 save status: ",sc
+    
+    Set mag2 = ##class(Library.Magazine).%New()
+    Set mag2.ID = "M002"
+    Set mag2.Title = "Scientific American"
+    Set mag2.PublicationDate = $ZDATEH("2024-02-01",3)
+    Set mag2.CopiesAvailable = 3
+    Set mag2.Publisher = "Springer Nature"
+    Set mag2.IssueNumber = 2
+    Set sc = mag2.%Save()
+    Write !,"Magazine2 save status: ",sc
+    
+    // Create Patrons
+    Set patron1 = ##class(Library.Patron).%New()
+    Set patron1.Name = "John Smith"
+    Set patron1.Email = "john.smith@email.com"
+    Set sc = patron1.%Save()
+    Write !,"Patron1 save status: ",sc
+    
+    Set patron2 = ##class(Library.Patron).%New()
+    Set patron2.Name = "Emma Wilson"
+    Set patron2.Email = "emma.wilson@email.com"
+    Set sc = patron2.%Save()
+    Write !,"Patron2 save status: ",sc
+    
+    // Create Librarians
+    Set lib1 = ##class(Library.Librarian).%New()
+    Set lib1.Name = "Sarah Johnson"
+    Set lib1.Position = "Head Librarian"
+    Set sc = lib1.%Save()
+    Write !,"Librarian1 save status: ",sc
+    
+    Set lib2 = ##class(Library.Librarian).%New()
+    Set lib2.Name = "Michael Brown"
+    Set lib2.Position = "Assistant Librarian"
+    Set sc = lib2.%Save()
+    Write !,"Librarian2 save status: ",sc
+    
+    // Create Library
+    Set library = ##class(Library.Library).%New()
+    Set library.Name = "Central Public Library"
+    Set library.Address = "123 Main Street, City"
+    Set library.Staff = ##class(%ListOfObjects).%New()
+    Set library.RegisteredPatrons = ##class(%ListOfObjects).%New()
+    Set library.Inventory = ##class(%ArrayOfObjects).%New()
+    
+    Do library.Staff.Insert(lib1)
+    Do library.Staff.Insert(lib2)
+    Do library.RegisteredPatrons.Insert(patron1)
+    Do library.RegisteredPatrons.Insert(patron2)
+    Do library.Inventory.SetAt(book1, book1.ID)
+    Do library.Inventory.SetAt(book2, book2.ID)
+    Do library.Inventory.SetAt(mag1, mag1.ID)
+    Do library.Inventory.SetAt(mag2, mag2.ID)
+    
+    Set sc = library.%Save()
+    Write !,"Library save status: ",sc
+    
+    Quit sc
+}

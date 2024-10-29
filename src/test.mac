@@ -1,0 +1,4 @@
+ROUTINE test
+  Read "Enter a list of students (comma-separeted): ", subjectStudents
+  Set studentList = $LISTFROMSTRING(subjectStudents, ",")
+  ZWrite subjectStudents, studentList

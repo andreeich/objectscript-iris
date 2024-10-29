@@ -1,0 +1,52 @@
+ROUTINE lab2
+  #; School(subject) = details about a subject
+  #; School(subject, form) = a list of students
+  #; School(subject, form, name) = student score
+
+  #; Reading users input for initialisation variables
+  Read "Enter a subject name: ", subjectName, !
+  Read "Enter a subject description: ", subjectDescription, !
+  Read "Enter a form your students are studing: ", subjectForm, !
+  Read "Enter a list of students (comma-separeted): ", subjectStudents, !
+
+  #; Setting a global based on user's input
+  Set ^School(subjectName) = subjectDescription
+  Set ^School(subjectName, +subjectForm) = $LISTFROMSTRING(subjectStudents)
+
+  #; Setting students's grade
+  Set studentList = $GET(^School(subjectName, +subjectForm))
+  Set i = 1
+  For i=1:1:$LISTLENGTH(studentList) {
+    Set studentName = $LISTGET(studentList, i)
+    Write "Enter ", studentName, " grade: "
+    Read studentGrade, !
+    Set ^School(subjectName, +subjectForm, studentName) = studentGrade
+  }
+
+  #; Checking the students data
+  If $DATA(^School(subjectName, +subjectForm)) = 11 {
+    Write "All data is setted!", !
+  } Else {
+    Write "Some data has been lost!", !
+    Quit
+  }
+
+  #; Writing info about students's names
+  Write !, "List of ", subjectName, " ", subjectForm, "th form student's names:", !
+  Set studentName = ""
+  For {
+    Set studentName = $Next(^School(subjectName, +subjectForm, studentName))
+    Quit:studentName=-1
+    Write "- ", studentName, !
+  }
+
+  #; Writing info about students's grades
+  Write !, "List of ", subjectName, " ", subjectForm, "th form student's grades:", !
+  Set studentName = ""
+  For {
+    Set studentName = $ORDER(^School(subjectName, +subjectForm, studentName), 1, studentGrade)
+    Quit:studentName=""
+    Write "- ", studentName, ": ", studentGrade, !
+  }
+
+  Kill ^School
