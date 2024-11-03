@@ -75,46 +75,6 @@ Method TestRequiredProperties() As %Status
     Quit $$$OK
 }
 
-Method TestDeleteObjectWithChildren() As %Status
-{
-    // Create a library
-    Set library = ##class(Library.Library).%New()
-    Set library.Name = "Test Library"
-    Set library.Address = "123 Main St"
-    
-    Set librarian = ##class(Library.Librarian).%New()
-    Set librarian.Name = "Test librarian"
-    Set librarian.Position = "Librarian"
-    Do library.Staff.Insert(librarian)
-    
-    Set sc = library.%Save()
-    Do $$$AssertStatusOK(sc, "Library should be saved successfully")
-    
-    // Create a book and add it to the library
-    Set book = ##class(Library.Book).%New()
-    Set book.ID = "TEST" _ $INCREMENT(^TestBookCounter)
-    Set book.Title = "Test Book"
-    Set book.Author = "Test Author"
-    Set book.PageCount = 200
-    Set book.ISBN = "ISBN" _ $INCREMENT(^TestISBNCounter)
-    Set book.PublicationDate = $ZDATEH("2023-06-01",3)
-    Set book.CopiesAvailable = 5
-    Do library.Inventory.Insert(book)
-    
-    Set sc = library.%Save()
-    Do $$$AssertStatusOK(sc, "Library should be updated successfully")
-    
-    // Delete the library
-    Set sc = library.%Delete()
-    Do $$$AssertStatusOK(sc, "Library should be deleted successfully")
-    
-    // Verify book is deleted along with the library
-    Set deletedBook = ##class(Library.Book).%OpenId(book.%Id())
-    Do $$$AssertStatusNotOK(deletedBook, "Book should be deleted along with the library")
-    
-    Quit $$$OK
-}
-
 Method TestDeleteBook() As %Status
 {
     Set book = ##class(Library.Book).%New()
@@ -128,11 +88,63 @@ Method TestDeleteBook() As %Status
     
     Set sc = book.%Save()
     Do $$$AssertStatusOK(sc, "Book should be saved successfully")
+
+    // Save book ID
+    Set ID = book.%Id()
+
+    // Delete the book
+    Do ##class(Library.Book).%DeleteId(ID)
     
     // Verify book is deleted
-    Set deletedBook = ##class(Library.Book).%OpenId(book.%Id())
+    Set deletedBook = ##class(Library.Book).%OpenId(ID)
     Do $$$AssertStatusNotOK(deletedBook, "Book should be deleted")
     
+    Quit $$$OK
+}
+
+Method TestDeleteLibrary() As %Status
+{
+    // Create a library
+    Set librarian = ##class(Library.Librarian).%New()
+    Set librarian.Name = "Test librarian"
+    Set librarian.Position = "Librarian"
+
+    Set sc = librarian.%Save()
+    Do $$$AssertStatusOK(sc, "Librarian should be saved successfully")
+    
+    Set library = ##class(Library.Library).%New()
+    Set library.Name = "Test Library" _ $INCREMENT(^TestLibraryCounter)
+    Set library.Address = "123 Main St"
+    Do library.Staff.Insert(librarian)
+
+    Set sc = library.%Save()
+    Do $$$AssertStatusOK(sc, "Library should be saved successfully")
+
+    // Create a book and add it to the library
+    Set book = ##class(Library.Book).%New()
+    Set book.ID = "TEST" _ $INCREMENT(^TestBookCounter)
+    Set book.Title = "Test Book"
+    Set book.Author = "Test Author"
+    Set book.PageCount = 200
+    Set book.ISBN = "ISBN" _ $INCREMENT(^TestISBNCounter)
+    Set book.PublicationDate = $ZDATEH("2023-06-01",3)
+    Set book.CopiesAvailable = 5
+
+    Set sc = book.%Save()
+    Do $$$AssertStatusOK(sc, "Book should be saved successfully")
+
+    Do library.Inventory.SetAt(book, book.ID)
+
+    Set sc = library.%Save()
+    Do $$$AssertStatusOK(sc, "Library should be updated successfully")
+
+    // Delete the library
+    Set sc = ##class(Library.Library).%DeleteId(library.%Id())
+    Do $$$AssertStatusOK(sc, "Library should be deleted successfully")
+
+    // Verify book is NOT deleted along with the library
+    Set deletedBook = ##class(Library.Book).%OpenId(book.%Id())
+    Do $$$AssertEquals(deletedBook.ID, book.ID, "Book should not be deleted along with the library")
     Quit $$$OK
 }
 

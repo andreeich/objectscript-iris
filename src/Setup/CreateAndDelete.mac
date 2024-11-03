@@ -1,0 +1,19 @@
+ROUTINE CreateAndDelete
+  Do ^ClearLibraryData
+  Set book = ##class(Library.Book).%New()
+  Set book.ID = "B001"
+  Set book.Title = "The Great Gatsby"
+  Set book.Author = "F. Scott Fitzgerald"
+  Set book.PageCount = 180
+  Set book.ISBN = "978-0743273565"
+  Set sc = book.%Save()
+  Write !,"Created Book: ",book.Title," by ",book.Author," (ISBN: ",book.ISBN,")"
+
+  Set ID = book.%Id()
+
+  Do ##class(Library.Book).%DeleteId(ID)
+
+  Set book = ""
+
+  Set book = ##class(Library.Book).%OpenId(ID)
+  Write !, book
