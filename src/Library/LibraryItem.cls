@@ -9,11 +9,6 @@ Property PublicationDate As %Date [ Required ];
 
 Property CopiesAvailable As %Integer [ Required ];
 
-Method GetAvailability() As %Boolean
-{
-    Quit:(..CopiesAvailable > 0)
-}
-
 // Unique index for ID
 
 Index IDIndex On ID [ Unique ];

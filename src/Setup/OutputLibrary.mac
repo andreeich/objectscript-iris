@@ -1,0 +1,9 @@
+ROUTINE OutputLibrary
+    Write !,!,"=== Library Details ==="
+    Write !,"Name: ",library.Name
+    Write !,"Address: ",library.Address
+    Write !,"Total Inverntory: ",library.Inventory.Count()
+    Write !,"Total Patrons: ",library.RegisteredPatrons.Count()
+    Write !,"Total Staff: ",library.Staff.Count()
+    Write !,!,"Database populated successfully!"
+    

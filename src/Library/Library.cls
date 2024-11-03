@@ -5,29 +5,11 @@ Property Name As %String [ Required ];
 
 Property Address As %String [ Required ];
 
-Property Inventory As %ArrayOfObjects;
+Property Inventory As array Of Library.LibraryItem;
 
-Property RegisteredPatrons As %ListOfObjects;
+Property RegisteredPatrons As list Of Library.Patron;
 
-Property Staff As %ListOfObjects [ Required ];
-
-Method RegisterPatron(patron As Library.Patron) As %Status
-{
-    Set tSC = ..RegisteredPatrons.Insert(patron)
-    If $$$ISOK(tSC) {
-        Set tSC = patron.%Save()
-    }
-    Quit tSC
-}
-
-Method HireLibrarian(librarian As Library.Librarian) As %Status
-{
-    Set tSC = ..Staff.Insert(librarian)
-    If $$$ISOK(tSC) {
-        Set tSC = librarian.%Save()
-    }
-    Quit tSC
-}
+Property Staff As list Of Library.Librarian [ Required ];
 
 // Unique index for Name
 

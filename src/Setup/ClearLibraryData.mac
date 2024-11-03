@@ -1,0 +1,20 @@
+ROUTINE ClearLibraryData
+    // Delete all librarians
+    Set sc = ##class(Library.Librarian).%DeleteExtent()
+    Write !,"Deleted all librarians: ",sc
+
+    // Delete all books
+    Set sc = ##class(Library.Book).%DeleteExtent()
+    Write !,"Deleted all books: ",sc
+
+    // Delete all magazines
+    Set sc = ##class(Library.Magazine).%DeleteExtent()
+    Write !,"Deleted all magazines: ",sc
+
+    // Delete all patrons
+    Set sc = ##class(Library.Patron).%DeleteExtent()
+    Write !,"Deleted all patrons: ",sc
+
+    // Delete all library records
+    Set sc = ##class(Library.Library).%DeleteExtent()
+    Write !,"Deleted all libraries: ",sc

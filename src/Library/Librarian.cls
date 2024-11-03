@@ -7,33 +7,6 @@ Property Position As %String [ Required ];
 
 Property Resume As %Stream.GlobalCharacter;
 
-Method AddItem(item As Library.LibraryItem) As %Status
-{
-    Quit item.%Save()
-}
-
-Method RemoveItem(item As Library.LibraryItem) As %Status
-{
-    Quit item.%Delete()
-}
-
-Method SearchItems(searchTerm As %String) As %ListOfObjects
-{
-    Set items = ##class(%ListOfObjects).%New()
-    &sql(DECLARE C1 CURSOR FOR 
-         SELECT ID FROM Library.LibraryItem 
-         WHERE Title %STARTSWITH :searchTerm)
-    &sql(OPEN C1)
-    For { 
-        &sql(FETCH C1 INTO :id)
-        Quit:SQLCODE
-        Set item = ##class(Library.LibraryItem).%OpenId(id)
-        Do items.Insert(item)
-    }
-    &sql(CLOSE C1)
-    Quit items
-}
-
 Storage Default
 {
 <Data name="LibrarianDefaultData">

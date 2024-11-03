@@ -5,32 +5,7 @@ Property Name As %String [ Required ];
 
 Property Email As %String [ Required ];
 
-Property BorrowedItems As %List;
-
-Method BorrowItem(item As Library.LibraryItem) As %Status
-{
-    If (item.GetAvailability()) {
-        Set tSC = ..BorrowedItems.Insert(item)
-        If $$$ISOK(tSC) {
-            Set item.CopiesAvailable = item.CopiesAvailable - 1
-            Set tSC = item.%Save()
-        }
-        Quit tSC
-    }
-    Quit $$$ERROR($$$GeneralError, "Item not available")
-}
-
-Method ReturnItem(item As Library.LibraryItem) As %Status
-{
-    Set tSC = $$$OK
-    Try {
-        Set item.CopiesAvailable = item.CopiesAvailable + 1
-        Set tSC = item.%Save()
-    } Catch ex {
-        Set tSC = ex.AsStatus()
-    }
-    Quit tSC
-}
+Property BorrowedItems As list Of Library.LibraryItem;
 
 Storage Default
 {

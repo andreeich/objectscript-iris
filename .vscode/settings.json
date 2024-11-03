@@ -5,7 +5,7 @@
 	},
 	"objectscript.conn": {
 		"ns": "USER",
-		"username": "_SYSTEM",
+		"username": "SuperUser",
 		"password": "SYS",
 		"docker-compose": {
 			"service": "iris",
@@ -21,11 +21,12 @@
 			"showSystem": false,
 			"previewLimit": 50,
 			"server": "localhost",
-			"port": 32770,
+			"port": 52773,
+			"https": false,
 			"askForPassword": false,
 			"driver": "InterSystems IRIS",
-			"name": "objectscript-docker",
-			"username": "_SYSTEM",
+			"name": "DB",
+			"username": "SuperUser",
 			"password": "SYS"
 		}
 	]
