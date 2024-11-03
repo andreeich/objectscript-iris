@@ -1,0 +1,7 @@
+ROUTINE SetupTests
+  Set ^UnitTestRoot = "/home/irisowner/dev/tests"
+  Write ##class(%File).DirectoryExists(^UnitTestRoot)
+  Write ##class(%File).DirectoryExists(^UnitTestRoot_"/Library")
+  Set test = "Library:Library.TestBook"
+  Set quals = "/noload/norecursive/nodelete"
+  #; Do ##class(%UnitTest.Manager).RunTest(test, quals)

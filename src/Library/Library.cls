@@ -5,7 +5,7 @@ Property Name As %String [ Required ];
 
 Property Address As %String [ Required ];
 
-Property Inventory As array Of Library.LibraryItem;
+Property Inventory As list Of Library.LibraryItem;
 
 Property RegisteredPatrons As list Of Library.Patron;
 

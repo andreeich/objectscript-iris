@@ -9,6 +9,13 @@ Property PublicationDate As %Date [ Required ];
 
 Property CopiesAvailable As %Integer [ Required ];
 
+Property IsAvailable As %Boolean [ Calculated, SqlComputeCode = {Set {*} = ({CopiesAvailable} > 0)}, SqlComputed ];
+
+Method IsAvailableGet() As %Boolean
+{
+  Return (..CopiesAvailable > 0)
+}
+
 // Unique index for ID
 
 Index IDIndex On ID [ Unique ];
