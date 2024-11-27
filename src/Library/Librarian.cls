@@ -1,11 +1,11 @@
-Class Library.Librarian Extends %Persistent
+Class Library.Librarian Extends (%Persistent, %Populate)
 {
 
-Property Name As %String [ Required ];
+Property Name As %String(POPSPEC = "Name()") [ Required ];
 
-Property Position As %String [ Required ];
+Property Position As %String(POPSPEC = "Title()") [ Required ];
 
-Property Resume As %Stream.GlobalCharacter;
+Property Resume As %Stream.GlobalCharacter(POPSPEC = "String(1000)");
 
 ClassMethod GetLibrarianCount() As %Integer
 {

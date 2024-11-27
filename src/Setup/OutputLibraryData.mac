@@ -1,0 +1,50 @@
+ROUTINE Setup.OutputLibraryData
+    // Output all books
+    Write "Books:", !
+    Set bookRS = ##class(%SQL.Statement).%New()
+    Do bookRS.%Prepare("SELECT Title, Author, ISBN FROM Library.Book")
+    Set result = bookRS.%Execute()
+    While result.%Next() {
+        Write "Title: ", result.%Get("Title"), ", Author: ", result.%Get("Author"), ", ISBN: ", result.%Get("ISBN"), !
+    }
+    Do bookRS.%Close()
+
+    // Output all magazines
+    Write !,"Magazines:", !
+    Set magazineRS = ##class(%SQL.Statement).%New()
+    Do magazineRS.%Prepare("SELECT Publisher, IssueNumber FROM Library.Magazine")
+    Set result = magazineRS.%Execute()
+    While result.%Next() {
+        Write "Publisher: ", result.%Get("Publisher"), ", IssueNumber: ", result.%Get("IssueNumber"), !
+    }
+    Do magazineRS.%Close()
+
+    // Output all patrons
+    Write !,"Patrons:", !
+    Set patronRS = ##class(%SQL.Statement).%New()
+    Do patronRS.%Prepare("SELECT Name, Email FROM Library.Patron")
+    Set result = patronRS.%Execute()
+    While result.%Next() {
+        Write "Name: ", result.%Get("Name"), ", Email: ", result.%Get("Email"), !
+    }
+    Do patronRS.%Close()
+
+    // Output all librarians
+    Write !,"Librarians:", !
+    Set librarianRS = ##class(%SQL.Statement).%New()
+    Do librarianRS.%Prepare("SELECT Name, Position FROM Library.Librarian")
+    Set result = librarianRS.%Execute()
+    While result.%Next() {
+        Write "Name: ", result.%Get("Name"), ", Position: ", result.%Get("Position"), !
+    }
+    Do librarianRS.%Close()
+
+    // Output all libraries
+    Write !,"Libraries:", !
+    Set libraryRS = ##class(%SQL.Statement).%New()
+    Do libraryRS.%Prepare("SELECT Name, Address FROM Library.Library")
+    Set result = libraryRS.%Execute()
+    While result.%Next() {
+        Write "Name: ", result.%Get("Name"), ", Address: ", result.%Get("Address"), !
+    }
+    Do libraryRS.%Close()

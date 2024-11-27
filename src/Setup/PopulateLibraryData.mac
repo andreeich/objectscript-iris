@@ -1,0 +1,107 @@
+ROUTINE Setup.PopulateLibraryData
+#include %occInclude
+    // Populate data for Library.Book
+    Write "Populating Library.Book...", !
+    Set status = ##class(Library.Book).Populate(10)
+    If $$$ISERR(status) {
+        Write "Error populating Library.Book: ", ##class(%SYSTEM.Status).GetErrorText(status), !
+        Quit
+    }
+    Write "Library.Book populated successfully.", !
+
+    // Populate data for Library.Librarian
+    Write "Populating Library.Librarian...", !
+    Set status = ##class(Library.Librarian).Populate(10)
+    If $$$ISERR(status) {
+        Write "Error populating Library.Librarian: ", ##class(%SYSTEM.Status).GetErrorText(status), !
+        Quit
+    }
+    Write "Library.Librarian populated successfully.", !
+
+    // Populate data for Library.Library
+    Write "Populating Library.Library...", !
+    Set status = ##class(Library.Library).Populate(10)
+    If $$$ISERR(status) {
+        Write "Error populating Library.Library: ", ##class(%SYSTEM.Status).GetErrorText(status), !
+        Quit
+    }
+    Write "Library.Library populated successfully.", !
+
+    // Populate data for Library.Patron
+    Write "Populating Library.Patron...", !
+    Set status = ##class(Library.Patron).Populate(10)
+    If $$$ISERR(status) {
+        Write "Error populating Library.Patron: ", ##class(%SYSTEM.Status).GetErrorText(status), !
+        Quit
+    }
+    Write "Library.Patron populated successfully.", !
+
+    // Populate data for Library.Magazine
+    Write "Populating Library.Magazine...", !
+    Set status = ##class(Library.Magazine).Populate(10)
+    If $$$ISERR(status) {
+        Write "Error populating Library.Magazine: ", ##class(%SYSTEM.Status).GetErrorText(status), !
+        Quit
+    }
+    Write "Library.Magazine populated successfully.", !
+
+    // Populate LibraryItems for each Patron
+    Write "Attaching LibraryItems (Books and Magazines) to each Patron...", !
+    Set patronRS = ##class(%SQL.Statement).%New()
+    Do patronRS.%Prepare("SELECT ID FROM Library.Patron")
+    Set result = patronRS.%Execute()
+    While result.%Next() {
+        Set patronID = result.%Get("ID")
+        Set patron = ##class(Library.Patron).%OpenId(patronID)
+        If '$ISOBJECT(patron) {
+            Write "Error: Patron with ID ", patronID, " could not be opened.", !
+            Quit
+        }
+
+        // Attach existing Books
+        Set bookRS = ##class(%SQL.Statement).%New()
+        Do bookRS.%Prepare("SELECT ID FROM Library.Book")
+        Set bookResult = bookRS.%Execute()
+        While bookResult.%Next() {
+            Set bookID = bookResult.%Get("ID")
+            Set book = ##class(Library.Book).%OpenId(bookID)
+            If '$ISOBJECT(book) {
+                Write "Error: Book with ID ", bookID, " could not be opened.", !
+                Quit
+            }
+            Set book.Patron = patron
+            Set sc = book.%Save()
+            If $$$ISERR(sc) {
+                Write "Error saving Book with Patron: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+                Quit
+            }
+        }
+
+        // Attach existing Magazines
+        Set magazineRS = ##class(%SQL.Statement).%New()
+        Do magazineRS.%Prepare("SELECT ID FROM Library.Magazine")
+        Set magazineResult = magazineRS.%Execute()
+        While magazineResult.%Next() {
+            Set magazineID = magazineResult.%Get("ID")
+            Set magazine = ##class(Library.Magazine).%OpenId(magazineID)
+            If '$ISOBJECT(magazine) {
+                Write "Error: Magazine with ID ", magazineID, " could not be opened.", !
+                Quit
+            }
+            Set magazine.Patron = patron
+            Set sc = magazine.%Save()
+            If $$$ISERR(sc) {
+                Write "Error saving Magazine with Patron: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+                Quit
+            }
+        }
+
+        Set sc = patron.%Save()
+        If $$$ISERR(sc) {
+            Write "Error saving Patron with LibraryItems: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+            Quit
+        }
+    }
+    Write "LibraryItems (Books and Magazines) attached to each Patron successfully.", !
+
+    Quit

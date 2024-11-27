@@ -1,20 +1,49 @@
-ROUTINE ClearLibraryData
+ROUTINE Setup.ClearLibraryData
+#include %occInclude
+
     // Delete all librarians
+    Write "Deleting all librarians...", !
     Set sc = ##class(Library.Librarian).%DeleteExtent()
-    Write !,"Deleted all librarians: ",sc
+    If $$$ISERR(sc) {
+        Write "Error deleting librarians: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+        Quit
+    }
+    Write "Deleted all librarians successfully.", !
 
     // Delete all books
+    Write "Deleting all books...", !
     Set sc = ##class(Library.Book).%DeleteExtent()
-    Write !,"Deleted all books: ",sc
+    If $$$ISERR(sc) {
+        Write "Error deleting books: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+        Quit
+    }
+    Write "Deleted all books successfully.", !
 
     // Delete all magazines
+    Write "Deleting all magazines...", !
     Set sc = ##class(Library.Magazine).%DeleteExtent()
-    Write !,"Deleted all magazines: ",sc
+    If $$$ISERR(sc) {
+        Write "Error deleting magazines: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+        Quit
+    }
+    Write "Deleted all magazines successfully.", !
 
     // Delete all patrons
+    Write "Deleting all patrons...", !
     Set sc = ##class(Library.Patron).%DeleteExtent()
-    Write !,"Deleted all patrons: ",sc
+    If $$$ISERR(sc) {
+        Write "Error deleting patrons: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+        Quit
+    }
+    Write "Deleted all patrons successfully.", !
 
     // Delete all library records
+    Write "Deleting all libraries...", !
     Set sc = ##class(Library.Library).%DeleteExtent()
-    Write !,"Deleted all libraries: ",sc
+    If $$$ISERR(sc) {
+        Write "Error deleting libraries: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+        Quit
+    }
+    Write "Deleted all libraries successfully.", !
+
+    Quit

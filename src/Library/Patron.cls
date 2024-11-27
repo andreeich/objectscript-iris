@@ -1,11 +1,11 @@
-Class Library.Patron Extends %Persistent
+Class Library.Patron Extends (%Persistent, %Populate)
 {
 
-Property Name As %String [ Required ];
+Property Name As %String(POPSPEC = "Name()") [ Required ];
 
-Property Email As %String [ Required ];
+Property Email As %String(POPSPEC = "String(13)") [ Required ];
 
-Property BorrowedItems As list Of Library.LibraryItem;
+Relationship LibraryItems As Library.LibraryItem [ Cardinality = parent, Inverse = Patron ];
 
 ClassMethod GetPatronCount() As %Integer
 {

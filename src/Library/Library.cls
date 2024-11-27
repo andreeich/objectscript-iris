@@ -1,9 +1,9 @@
-Class Library.Library Extends %Persistent
+Class Library.Library Extends (%Persistent, %Populate)
 {
 
-Property Name As %String [ Required ];
+Property Name As %String(POPSPEC = "Name()") [ Required ];
 
-Property Address As %String [ Required ];
+Property Address As %String(POPSPEC = "Street()") [ Required ];
 
 Property Inventory As list Of Library.LibraryItem;
 

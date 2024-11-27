@@ -4,9 +4,7 @@
 	"name": "objecscript-docker-template devcontainer",
 
 	// Use the same recipe as creates the container we use when working locally.
-	"dockerComposeFile": [
-		"../docker-compose.yml"
-	],
+	"dockerComposeFile": ["../docker-compose.yml"],
 
 	"service": "iris",
 
@@ -19,7 +17,7 @@
 			// We define and use a `server` so that (a) a user-level `objectscript.conn.server` properly doesn't override us, and (b) so InterSystems
 			// Server Manager can also be used.
 			"settings": {
-				"objectscript.conn" :{
+				"objectscript.conn": {
 					"server": "devcontainer",
 					"active": true
 				},
@@ -34,7 +32,7 @@
 						}
 					}
 				},
-				"python.defaultInterpreterPath":"/usr/irissys/bin/irispython"
+				"python.defaultInterpreterPath": "/usr/irissys/bin/irispython"
 			},
 			// Add the IDs of extensions we want installed when the container is created.
 			// Currently (March 2022) `intersystems.language-server` fails to run within the container (alpine platform).

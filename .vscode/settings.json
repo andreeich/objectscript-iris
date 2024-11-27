@@ -5,14 +5,13 @@
 	},
 	"objectscript.conn": {
 		"ns": "USER",
-		"username": "SuperUser",
+		"username": "_SYSTEM",
 		"password": "SYS",
 		"docker-compose": {
 			"service": "iris",
 			"internalPort": 52773
 		},
-		"active": true,
-		"server": "devcontainer"
+		"active": true
 	},
 	"sqltools.connections": [
 		{
@@ -21,12 +20,11 @@
 			"showSystem": false,
 			"previewLimit": 50,
 			"server": "localhost",
-			"port": 52773,
-			"https": false,
+			"port": 32770,
 			"askForPassword": false,
 			"driver": "InterSystems IRIS",
-			"name": "DB",
-			"username": "SuperUser",
+			"name": "objectscript-docker",
+			"username": "_SYSTEM",
 			"password": "SYS"
 		}
 	]

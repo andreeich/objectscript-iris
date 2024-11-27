@@ -3,9 +3,9 @@ Class Library.Book Extends Library.LibraryItem
 
 Property Author As %String(POPSPEC = "Name()") [ Required ];
 
-Property PageCount As %Integer [ Required ];
+Property PageCount As %Integer(POPSPEC = "Integer(1,1000)") [ Required ];
 
-Property ISBN As %String [ Required ];
+Property ISBN As %String(POPSPEC = "String(13)") [ Required ];
 
 ClassMethod GetBookCount() As %Integer
 {

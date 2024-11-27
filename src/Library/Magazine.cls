@@ -1,9 +1,9 @@
 Class Library.Magazine Extends Library.LibraryItem
 {
 
-Property Publisher As %String [ Required ];
+Property Publisher As %String(POPSPEC = "Company()") [ Required ];
 
-Property IssueNumber As %Integer [ Required ];
+Property IssueNumber As %Integer(POPSPEC = "Integer(1,1000)") [ Required ];
 
 Index IssueIndex On (Publisher, IssueNumber) [ Unique ];
 
