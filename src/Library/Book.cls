@@ -1,11 +1,29 @@
 Class Library.Book Extends Library.LibraryItem
 {
 
-Property Author As %String [ Required ];
+Property Author As %String(POPSPEC = "Name()") [ Required ];
 
 Property PageCount As %Integer [ Required ];
 
 Property ISBN As %String [ Required ];
+
+ClassMethod GetBookCount() As %Integer
+{
+  // Embedded SQL query
+  &sql(SELECT COUNT(*) INTO :count FROM Library.Book)
+  Return count
+}
+
+ClassMethod GetBookByAuthor(author As %String) As %SQL.StatementResult
+{
+    Set sql = "SELECT * FROM Library.Book WHERE Author = ?"
+    Set rs = ##class(%SQL.Statement).%New()
+    Set sc = rs.%Prepare(sql)
+    If $$$ISERR(sc) { Quit sc }
+    
+    Set result = rs.%Execute(author)
+    Quit result
+}
 
 // Unique index for ISBN
 

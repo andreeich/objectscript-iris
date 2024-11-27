@@ -7,6 +7,24 @@ Property IssueNumber As %Integer [ Required ];
 
 Index IssueIndex On (Publisher, IssueNumber) [ Unique ];
 
+ClassMethod GetMagazineCount() As %Integer
+{
+  // Embedded SQL query
+  &sql(SELECT COUNT(*) INTO :count FROM Library.Magazine)
+  Return count
+}
+
+ClassMethod GetMagazineByPublisher(publisher As %String) As %SQL.StatementResult
+{
+    Set sql = "SELECT * FROM Library.Magazine WHERE Publisher = ?"
+    Set rs = ##class(%SQL.Statement).%New()
+    Set sc = rs.%Prepare(sql)
+    If $$$ISERR(sc) { Quit sc }
+    
+    Set result = rs.%Execute(publisher)
+    Quit result
+}
+
 Storage Default
 {
 <Data name="MagazineDefaultData">

@@ -1,4 +1,4 @@
-Class Library.LibraryItem Extends %Persistent [ Abstract ]
+Class Library.LibraryItem Extends (%Persistent, %Populate) [ Abstract ]
 {
 
 Property ID As %String [ Required ];

@@ -1,0 +1,63 @@
+ROUTINE lab6
+  #; get the book count
+  Set bookCount = ##class(Library.Book).GetBookCount()
+  Write !, "Book count: ", bookCount
+
+  #; get the bookds by Author
+  Set books = ##class(Library.Book).GetBookByAuthor("F. Scott Fitzgerald")
+  While books.%Next() {
+      Write !, "Title: ", books.Title
+      Write !, "ISBN: ", books.ISBN
+      Write !, "Page Count: ", books.PageCount
+      Write !
+  }
+
+  #; get the magazine count
+  Set magazineCount = ##class(Library.Magazine).GetMagazineCount()
+  Write !, "Magazine count: ", magazineCount
+
+  #; get the magazines by Publisher
+  Set magazines = ##class(Library.Magazine).GetMagazineByPublisher("National Geographic Society")
+  While magazines.%Next() {
+      Write !, "Title: ", magazines.Title
+      Write !, "IssueNumber: ", magazines.IssueNumber
+      Write !
+  }
+
+  #; get the patron count
+  Set patronCount = ##class(Library.Patron).GetPatronCount()
+  Write !, "Patron count: ", patronCount
+
+  #; get patrons by author
+  Set patrons = ##class(Library.Patron).GetPatronByEmail("alice.brown@email.com")
+  While patrons.Next() {
+      Write !, "Name: ", patrons.Get("Name")
+      Write !, "Email: ", patrons.Get("Email")
+      Write !
+  }
+  Do patrons.Close()
+
+  #; get the librarian count
+  Set librarianCount = ##class(Library.Librarian).GetLibrarianCount()
+  Write !, "Librarian count: ", librarianCount
+
+  #; get librarians by author
+  Set librarians = ##class(Library.Librarian).GetLibrarianByPosition("Head Librarian")
+  While librarians.Next() {
+      Write !, "Name: ", librarians.Get("Name")
+      Write !, "Position: ", librarians.Get("Position")
+      Write !
+  }
+  Do librarians.Close()
+
+  Write !, "Books by author in specific library:", !
+  Set books = ##class(Library.Library).GetAllBooksByLibraryName("Central Public Library")
+  While books.%Next() {
+    #;   Write !, "Name: ", books.Name
+      Write !, "Title: ", books.Title
+      Write !, "ISBN: ", books.ISBN
+      Write !, "some"
+  }
+ 
+  #; Write "List of all libraries:", !
+  #; Do ##Class(Library.Library).GetAllLibraryNames()

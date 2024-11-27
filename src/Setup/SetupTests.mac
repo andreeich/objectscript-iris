@@ -4,4 +4,5 @@ ROUTINE SetupTests
   Write ##class(%File).DirectoryExists(^UnitTestRoot_"/Library")
   Set test = "Library:Library.TestBook"
   Set quals = "/noload/norecursive/nodelete"
+  #; for 5-th lab
   #; Do ##class(%UnitTest.Manager).RunTest(test, quals)

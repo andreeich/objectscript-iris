@@ -7,6 +7,24 @@ Property Position As %String [ Required ];
 
 Property Resume As %Stream.GlobalCharacter;
 
+ClassMethod GetLibrarianCount() As %Integer
+{
+  // Embedded SQL query
+  &sql(SELECT COUNT(*) INTO :count FROM Library.Librarian)
+  Return count
+}
+
+ClassMethod GetLibrarianByPosition(position As %String) As %Library.ResultSet
+{
+  Set rs = ##class(%Library.ResultSet).%New()
+  Set sql = "SELECT * FROM Library.Librarian WHERE Position = ?"
+  
+  Do rs.Prepare(sql)
+  Do rs.Execute(position)
+  
+  Quit rs
+}
+
 Storage Default
 {
 <Data name="LibrarianDefaultData">

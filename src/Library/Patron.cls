@@ -7,6 +7,24 @@ Property Email As %String [ Required ];
 
 Property BorrowedItems As list Of Library.LibraryItem;
 
+ClassMethod GetPatronCount() As %Integer
+{
+  // Embedded SQL query
+  &sql(SELECT COUNT(*) INTO :count FROM Library.Patron)
+  Return count
+}
+
+ClassMethod GetPatronByEmail(email As %String) As %Library.ResultSet
+{
+  Set rs = ##class(%Library.ResultSet).%New()
+  Set sql = "SELECT * FROM Library.Patron WHERE Email = ?"
+  
+  Do rs.Prepare(sql)
+  Do rs.Execute(email)
+  
+  Quit rs
+}
+
 Storage Default
 {
 <Data name="PatronDefaultData">
