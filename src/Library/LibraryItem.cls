@@ -1,8 +1,6 @@
 Class Library.LibraryItem Extends (%Persistent, %Populate) [ Abstract ]
 {
 
-Property ID As %String [ Required ];
-
 Property Title As %String [ Required ];
 
 Property PublicationDate As %Date [ Required ];
@@ -17,10 +15,6 @@ Method IsAvailableGet() As %Boolean
 {
   Return (..CopiesAvailable > 0)
 }
-
-// Unique index for ID
-
-Index IDIndex On ID [ Unique ];
 
 Storage Default
 {

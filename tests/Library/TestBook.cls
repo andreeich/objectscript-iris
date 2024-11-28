@@ -4,7 +4,6 @@ Class Library.TestBook Extends %UnitTest.TestCase
 Method TestCreateBook() As %Status
 {
     Set book = ##class(Library.Book).%New()
-    Set book.ID = "TEST" _ $INCREMENT(^TestBookCounter)
     Set book.Title = "Test Book"
     Set book.Author = "Test Author"
     Set book.PageCount = 200
@@ -31,7 +30,6 @@ Method TestUniqueProperties() As %Status
 {
     // Create first book
     Set book1 = ##class(Library.Book).%New()
-    Set book1.ID = "TEST" _ $INCREMENT(^TestBookCounter)
     Set book1.Title = "Unique Book"
     Set book1.Author = "Unique Author"
     Set book1.PageCount = 300
@@ -44,7 +42,6 @@ Method TestUniqueProperties() As %Status
     
     // Create second book with same ISBN
     Set book2 = ##class(Library.Book).%New()
-    Set book2.ID = "TEST" _ $INCREMENT(^TestBookCounter)
     Set book2.Title = "Another Book"
     Set book2.Author = "Another Author"
     Set book2.PageCount = 250
@@ -61,7 +58,6 @@ Method TestUniqueProperties() As %Status
 Method TestRequiredProperties() As %Status
 {
     Set book = ##class(Library.Book).%New()
-    Set book.ID = "TEST" _ $INCREMENT(^TestBookCounter)
     // Intentionally not setting Title, which is required
     Set book.Author = "Required Author"
     Set book.PageCount = 150
@@ -78,7 +74,6 @@ Method TestRequiredProperties() As %Status
 Method TestDeleteBook() As %Status
 {
     Set book = ##class(Library.Book).%New()
-    Set book.ID = "TEST" _ $INCREMENT(^TestBookCounter)
     Set book.Title = "Test Book"
     Set book.Author = "Test Author"
     Set book.PageCount = 200
@@ -122,7 +117,6 @@ Method TestDeleteLibrary() As %Status
 
     // Create a book and add it to the library
     Set book = ##class(Library.Book).%New()
-    Set book.ID = "TEST" _ $INCREMENT(^TestBookCounter)
     Set book.Title = "Test Book"
     Set book.Author = "Test Author"
     Set book.PageCount = 200
@@ -133,7 +127,7 @@ Method TestDeleteLibrary() As %Status
     Set sc = book.%Save()
     Do $$$AssertStatusOK(sc, "Book should be saved successfully")
 
-    Do library.Inventory.SetAt(book, book.ID)
+    Do library.Inventory.SetAt(book, book.%Id())
 
     Set sc = library.%Save()
     Do $$$AssertStatusOK(sc, "Library should be updated successfully")
@@ -144,7 +138,7 @@ Method TestDeleteLibrary() As %Status
 
     // Verify book is NOT deleted along with the library
     Set deletedBook = ##class(Library.Book).%OpenId(book.%Id())
-    Do $$$AssertEquals(deletedBook.ID, book.ID, "Book should not be deleted along with the library")
+    Do $$$AssertEquals(deletedBook.%Id(), book.%Id(), "Book should not be deleted along with the library")
     Quit $$$OK
 }
 

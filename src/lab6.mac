@@ -51,13 +51,13 @@ ROUTINE lab6
   Do librarians.Close()
 
   Write !, "Books by author in specific library:", !
-  Set books = ##class(Library.Library).GetAllBooksByLibraryName("Central Public Library")
-  While books.%Next() {
-    #;   Write !, "Name: ", books.Name
-      Write !, "Title: ", books.Title
-      Write !, "ISBN: ", books.ISBN
-      Write !, "some"
-  }
+#;   Set books = ##class(Library.Library).GetAllBooksByLibraryName("Central Public Library")
+#;   While books.%Next() {
+#;     #;   Write !, "Name: ", books.Name
+#;       Write !, "Title: ", books.Title
+#;       Write !, "ISBN: ", books.ISBN
+#;       Write !, "some"
+#;   }
  
   #; Write "List of all libraries:", !
   #; Do ##Class(Library.Library).GetAllLibraryNames()

@@ -25,6 +25,17 @@ ClassMethod GetPatronByEmail(email As %String) As %Library.ResultSet
   Quit rs
 }
 
+ClassMethod GetAllLibraryItemsByPatronName(patronName As %String) As %SQL.StatementResult
+{
+  Set sql = "SELECT li.Title FROM Library.LibraryItem li JOIN Library.Patron p ON li.Patron = p.ID WHERE p.Name = ?"
+  Set rs = ##class(%SQL.Statement).%New()
+  Set sc = rs.%Prepare(sql)
+  If $$$ISERR(sc) { Quit sc }
+  
+  Set result = rs.%Execute(patronName)
+  Quit result
+}
+
 Storage Default
 {
 <Data name="PatronDefaultData">
