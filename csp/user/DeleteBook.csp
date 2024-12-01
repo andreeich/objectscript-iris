@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Delete Book</title>
+</head>
+<body>
+    <script language="Cache" runat="Server">
+    Set bookId = %request.Get("id")
+    Set sc = ##class(Library.Book).%DeleteId(bookId)
+    If $$$ISERR(sc) {
+        Write "Error deleting book: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+        Quit sc
+    }
+    Set %response.ServerSideRedirect = "BookList.csp"
+    Quit $$$OK
+    </script>
+</body>
+</html>

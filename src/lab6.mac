@@ -3,7 +3,7 @@ ROUTINE lab6
   Set bookCount = ##class(Library.Book).GetBookCount()
   Write !, "Book count: ", bookCount
 
-  #; get the bookds by Author
+  #; get the books by Author
   Set books = ##class(Library.Book).GetBookByAuthor("F. Scott Fitzgerald")
   While books.%Next() {
       Write !, "Title: ", books.Title
@@ -16,32 +16,49 @@ ROUTINE lab6
   Set magazineCount = ##class(Library.Magazine).GetMagazineCount()
   Write !, "Magazine count: ", magazineCount
 
-  #; get the magazines by Publisher
-  Set magazines = ##class(Library.Magazine).GetMagazineByPublisher("National Geographic Society")
-  While magazines.%Next() {
-      Write !, "Title: ", magazines.Title
-      Write !, "IssueNumber: ", magazines.IssueNumber
-      Write !
-  }
-
   #; get the patron count
   Set patronCount = ##class(Library.Patron).GetPatronCount()
   Write !, "Patron count: ", patronCount
 
-  #; get patrons by author
-  Set patrons = ##class(Library.Patron).GetPatronByEmail("alice.brown@email.com")
-  While patrons.Next() {
-      Write !, "Name: ", patrons.Get("Name")
-      Write !, "Email: ", patrons.Get("Email")
-      Write !
+  #; get all patron IDs
+  Set patrons = ##class(Library.Patron).GetAllPatrons()
+  While patrons.%Next() {
+    Write !, "Name: ", patrons.Name
+    Write !, "Email: ", patrons.Email
+    #; get magazine by patron name
+    Set magazine = ##class(Library.Patron).GetMagazineByPatronName(patrons.Name)
+    While magazine.%Next() {
+      Write !, "Magazine ID: ", magazine.ID
+      Set magazineDetails = ##class(Library.Magazine).GetMagazineById(magazine.ID)
+      While magazineDetails.%Next() {
+        Write !, "Publisher: ", magazineDetails.Publisher
+        Write !, "IssueNumber: ", magazineDetails.IssueNumber
+      }
+    }
+    Write !
   }
-  Do patrons.Close()
+
+
+
+
+
+
+
+  
+  #; get all library items by Patron ID
+  #; Set patronID = 306
+  #; Set patron = ##class(Library.Patron).%OpenId(patronID)
+  #; Set libraryItems = patron.GetLibraryItemsByPatron()
+  #; While libraryItems.Next() {
+  #;     Write !, "Title: ", libraryItems.Get("Title")
+  #;     Write !
+  #; }
 
   #; get the librarian count
   Set librarianCount = ##class(Library.Librarian).GetLibrarianCount()
   Write !, "Librarian count: ", librarianCount
 
-  #; get librarians by author
+  #; get librarians by Position
   Set librarians = ##class(Library.Librarian).GetLibrarianByPosition("Head Librarian")
   While librarians.Next() {
       Write !, "Name: ", librarians.Get("Name")
@@ -50,7 +67,7 @@ ROUTINE lab6
   }
   Do librarians.Close()
 
-  Write !, "Books by author in specific library:", !
+#;   Write !, "Books by author in specific library:", !
 #;   Set books = ##class(Library.Library).GetAllBooksByLibraryName("Central Public Library")
 #;   While books.%Next() {
 #;     #;   Write !, "Name: ", books.Name

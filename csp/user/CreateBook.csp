@@ -1,0 +1,17 @@
+<html>
+<head>
+    <title>Create Book</title>
+</head>
+<body>
+    <h1>Create Book</h1>
+    <form method="post" action="SaveNewBook.csp">
+        Title: <input type="text" name="title"><br>
+        Author: <input type="text" name="author"><br>
+        ISBN: <input type="text" name="isbn"><br>
+        Page Count: <input type="text" name="pageCount"><br>
+        Publication Date: <input type="text" name="publicationDate"><br>
+        Copies Available: <input type="text" name="copiesAvailable"><br>
+        <input type="submit" value="Create">
+    </form>
+</body>
+</html>

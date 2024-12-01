@@ -7,8 +7,6 @@ Property PublicationDate As %Date [ Required ];
 
 Property CopiesAvailable As %Integer [ Required ];
 
-Relationship Patron As Library.Patron [ Cardinality = children, Inverse = LibraryItems ];
-
 Property IsAvailable As %Boolean [ Calculated, SqlComputeCode = {Set {*} = ({CopiesAvailable} > 0)}, SqlComputed ];
 
 Method IsAvailableGet() As %Boolean

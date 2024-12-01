@@ -25,6 +25,17 @@ ClassMethod GetBookByAuthor(author As %String) As %SQL.StatementResult
     Quit result
 }
 
+ClassMethod GetAllBooks() As %SQL.StatementResult
+{
+  Set sql = "SELECT * FROM Library.Book"
+  Set rs = ##class(%SQL.Statement).%New()
+  Set sc = rs.%Prepare(sql)
+  If $$$ISERR(sc) { Quit sc }
+  
+  Set result = rs.%Execute()
+  Quit result
+}
+
 // Unique index for ISBN
 
 Index ISBNIndex On ISBN [ Unique ];

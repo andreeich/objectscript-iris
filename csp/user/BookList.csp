@@ -1,0 +1,57 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+  <title>Book List</title>
+
+  <script language="Cache" runat="Server">
+    Set tStatement = ##class(%SQL.Statement).%New()
+    Set tQuery = "SELECT ID, Title, Author, ISBN, PageCount, PublicationDate, CopiesAvailable FROM Library.Book"
+    Do tStatement.%Prepare(tQuery)
+    Set tResult = tStatement.%Execute()
+    Set i = 0
+  </script>
+</head>
+<body class="container py-4">
+    <h1 class="title">Book List</h1>
+    <div class="table-container">
+      <table class="table is-bordered is-striped is-hoverable">
+          <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>ISBN</th>
+              <th>Page Count</th>
+              <th>Publication Date</th>
+              <th>Copies Available</th>
+              <th>Actions</th>
+          </tr>
+          <csp:while condition="tResult.%Next()" counter="i">
+          <tr>
+              <td>#(tResult.%Get("ID"))#</td>
+              <td>#(tResult.%Get("Title"))#</td>
+              <td>#(tResult.%Get("Author"))#</td>
+              <td>#(tResult.%Get("ISBN"))#</td>
+              <td>#(tResult.%Get("PageCount"))#</td>
+              <td>#(tResult.%Get("PublicationDate"))#</td>
+              <td>#(tResult.%Get("CopiesAvailable"))#</td>
+              <td>
+                <span class="icon">
+                  <a href='EditBook.csp?id=#(tResult.%Get("ID"))#'>
+                    <i class="fa-regular fa-pen-to-square has-text-link"></i>
+                  </a>
+                </span>
+                <span class="icon">
+                  <a href='DeleteBook.csp?id=#(tResult.%Get("ID"))#'>
+                    <i class="fa-solid fa-delete-left has-text-danger"></i>
+                  </a>
+                </span>
+              </td>
+          </tr>
+          </csp:while>
+      </table>
+    </div>
+    <a href='CreateBook.csp' class="button">Create New Book </a>
+</body>
+</html>

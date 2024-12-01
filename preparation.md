@@ -28,4 +28,3 @@ Use implicit `join (->)`.
 Create a trigger and code to trigger it.
 Change Unique index to IDKEY and run script for creating objects from practice 4. See that the presentation in Globals changed.
 All methods should make sense
-

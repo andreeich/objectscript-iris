@@ -5,7 +5,7 @@ Property Name As %String(POPSPEC = "Name()") [ Required ];
 
 Property Email As %String(POPSPEC = "String(13)") [ Required ];
 
-Relationship LibraryItems As Library.LibraryItem [ Cardinality = parent, Inverse = Patron ];
+Relationship Magazines As Library.Magazine [ Cardinality = parent, Inverse = Patron ];
 
 ClassMethod GetPatronCount() As %Integer
 {
@@ -14,20 +14,49 @@ ClassMethod GetPatronCount() As %Integer
   Return count
 }
 
-ClassMethod GetPatronByEmail(email As %String) As %Library.ResultSet
+ClassMethod GetAllPatrons() As %SQL.StatementResult
 {
-  Set rs = ##class(%Library.ResultSet).%New()
-  Set sql = "SELECT * FROM Library.Patron WHERE Email = ?"
+  Set sql = "SELECT * FROM Library.Patron"
+  Set rs = ##class(%SQL.Statement).%New()
+  Set sc = rs.%Prepare(sql)
+  If $$$ISERR(sc) { Quit sc }
   
-  Do rs.Prepare(sql)
-  Do rs.Execute(email)
-  
-  Quit rs
+  Set result = rs.%Execute()
+  Quit result
 }
 
-ClassMethod GetAllLibraryItemsByPatronName(patronName As %String) As %SQL.StatementResult
+ClassMethod GetFirstPatron() As Library.Patron
 {
-  Set sql = "SELECT li.Title FROM Library.LibraryItem li JOIN Library.Patron p ON li.Patron = p.ID WHERE p.Name = ?"
+  // Embedded SQL query
+  &sql(SELECT * INTO :Patron FROM Library.Patron)
+  Return Patron
+}
+
+ClassMethod GetAllMagazinesByPatronName(patronName As %String) As %SQL.StatementResult
+{
+  Set sql = "SELECT li.Title FROM Library.Magazine li JOIN Library.Patron p ON li.Patron = p.ID WHERE p.Name = ?"
+  Set rs = ##class(%SQL.Statement).%New()
+  Set sc = rs.%Prepare(sql)
+  If $$$ISERR(sc) { Quit sc }
+  
+  Set result = rs.%Execute(patronName)
+  Quit result
+}
+
+ClassMethod GetPatronByName(patronName As %String) As %SQL.StatementResult
+{
+  Set sql = "SELECT * FROM Library.Patron WHERE Name = ?"
+  Set rs = ##class(%SQL.Statement).%New()
+  Set sc = rs.%Prepare(sql)
+  If $$$ISERR(sc) { Quit sc }
+  
+  Set result = rs.%Execute(patronName)
+  Quit result
+}
+
+ClassMethod GetMagazineByPatronName(patronName As %String) As %SQL.StatementResult
+{
+  Set sql = "SELECT Name, Magazines->ID FROM Library.Patron WHERE Name = ?"
   Set rs = ##class(%SQL.Statement).%New()
   Set sc = rs.%Prepare(sql)
   If $$$ISERR(sc) { Quit sc }

@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Save New Book</title>
+</head>
+<body>
+    <script language="Cache" runat="Server">
+    Set book = ##class(Library.Book).%New()
+    Set book.Title = %request.Get("title")
+    Set book.Author = %request.Get("author")
+    Set book.ISBN = %request.Get("isbn")
+    Set book.PageCount = %request.Get("pageCount")
+    Set book.PublicationDate = %request.Get("publicationDate")
+    Set book.CopiesAvailable = %request.Get("copiesAvailable")
+    Set sc = book.%Save()
+    If $$$ISERR(sc) {
+        Write "Error saving book: ", ##class(%SYSTEM.Status).GetErrorText(sc), !
+        Quit sc
+    }
+    Set %response.ServerSideRedirect = "BookList.csp"
+    Quit $$$OK
+    </script>
+</body>
+</html>

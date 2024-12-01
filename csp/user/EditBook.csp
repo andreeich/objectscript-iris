@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Edit Book</title>
+</head>
+<body>
+    <h1>Edit Book</h1>
+    <script language="Cache" runat="Server">
+    Set bookId = %request.Get("id")
+    Set book = ##class(Library.Book).%OpenId(bookId)
+    If '$ISOBJECT(book) {
+        Write "Book not found."
+        Quit $$$OK
+    }
+    </script>
+    <form method="post" action="SaveBook.csp">
+        <input type="hidden" name="id" value="#(bookId)#">
+        Title: <input type="text" name="title" value="#(book.Title)#"><br>
+        Author: <input type="text" name="author" value="#(book.Author)#"><br>
+        ISBN: <input type="text" name="isbn" value="#(book.ISBN)#"><br>
+        Page Count: <input type="text" name="pageCount" value="#(book.PageCount)#"><br>
+        Publication Date: <input type="text" name="publicationDate" value="#(book.PublicationDate)#"><br>
+        Copies Available: <input type="text" name="copiesAvailable" value="#(book.CopiesAvailable)#"><br>
+        <input type="submit" value="Save">
+    </form>
+</body>
+</html>

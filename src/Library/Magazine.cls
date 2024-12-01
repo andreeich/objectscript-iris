@@ -7,6 +7,8 @@ Property IssueNumber As %Integer(POPSPEC = "Integer(1,1000)") [ Required ];
 
 Index IssueIndex On (Publisher, IssueNumber) [ Unique ];
 
+Relationship Patron As Library.Patron [ Cardinality = children, Inverse = Magazines ];
+
 ClassMethod GetMagazineCount() As %Integer
 {
   // Embedded SQL query
@@ -14,15 +16,54 @@ ClassMethod GetMagazineCount() As %Integer
   Return count
 }
 
-ClassMethod GetMagazineByPublisher(publisher As %String) As %SQL.StatementResult
+ClassMethod GetMagazineById(id As %Integer) As %SQL.StatementResult
 {
-    Set sql = "SELECT * FROM Library.Magazine WHERE Publisher = ?"
-    Set rs = ##class(%SQL.Statement).%New()
-    Set sc = rs.%Prepare(sql)
-    If $$$ISERR(sc) { Quit sc }
-    
-    Set result = rs.%Execute(publisher)
-    Quit result
+  Set sql = "SELECT * FROM Library.Magazine WHERE ID = ?"
+  Set rs = ##class(%SQL.Statement).%New()
+  Set sc = rs.%Prepare(sql)
+  If $$$ISERR(sc) { Quit sc }
+  
+  Set result = rs.%Execute(id)
+  Quit result
+}
+
+// ClassMethod GetAllMagazines() As %SQL.StatementResult
+
+// {
+
+//   Set sql = "SELECT * FROM Library.Magazine"
+
+//   Set rs = ##class(%SQL.Statement).%New()
+
+//   Set sc = rs.%Prepare(sql)
+
+//   If $$$ISERR(sc) { Quit sc }
+
+//   Set result = rs.%Execute()
+
+//   Quit result
+
+// }
+
+ClassMethod GetAllMagazines() As %Status
+{
+  &sql(DECLARE MagazineCursor CURSOR FOR
+       SELECT ID, Publisher, IssueNumber FROM Library.Magazine)
+  
+  &sql(OPEN MagazineCursor)
+  
+  While (1) {
+    &sql(FETCH MagazineCursor INTO :id, :publisher, :issueNumber)
+    If SQLCODE '= 0 {
+      Write "ID: ", id, ", Publisher: ", publisher, ", IssueNumber: ", issueNumber, !
+    } Else {
+      Quit
+    }
+  }
+  
+  &sql(CLOSE MagazineCursor)
+  
+  Quit $$$OK
 }
 
 Storage Default
