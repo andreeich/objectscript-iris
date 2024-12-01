@@ -1,17 +1,51 @@
 <html>
 <head>
     <title>Create Book</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
-<body>
-    <h1>Create Book</h1>
+<body class="container py-4">
+    <h1 class="title">Create Book</h1>
     <form method="post" action="SaveNewBook.csp">
-        Title: <input type="text" name="title"><br>
-        Author: <input type="text" name="author"><br>
-        ISBN: <input type="text" name="isbn"><br>
-        Page Count: <input type="text" name="pageCount"><br>
-        Publication Date: <input type="text" name="publicationDate"><br>
-        Copies Available: <input type="text" name="copiesAvailable"><br>
-        <input type="submit" value="Create">
+        <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+                <input class="input" type="text" name="title">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Author</label>
+            <div class="control">
+                <input class="input" type="text" name="author">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">ISBN</label>
+            <div class="control">
+                <input class="input" type="text" name="isbn">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Page Count</label>
+            <div class="control">
+                <input class="input" type="number" name="pageCount">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Publication Date</label>
+            <div class="control">
+                <input class="input" type="number" name="publicationDate">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Copies Available</label>
+            <div class="control">
+                <input class="input" type="number" name="copiesAvailable">
+            </div>
+        </div>
+        <div class="control">
+            <button class="button is-primary" type="submit">Create</button>
+        </div>
     </form>
 </body>
 </html>

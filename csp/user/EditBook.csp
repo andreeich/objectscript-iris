@@ -1,9 +1,11 @@
 <html>
 <head>
     <title>Edit Book</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
 </head>
-<body>
-    <h1>Edit Book</h1>
+<body class="container py-4">
+    <h1 class="title">Edit Book</h1>
     <script language="Cache" runat="Server">
     Set bookId = %request.Get("id")
     Set book = ##class(Library.Book).%OpenId(bookId)
@@ -14,13 +16,45 @@
     </script>
     <form method="post" action="SaveBook.csp">
         <input type="hidden" name="id" value="#(bookId)#">
-        Title: <input type="text" name="title" value="#(book.Title)#"><br>
-        Author: <input type="text" name="author" value="#(book.Author)#"><br>
-        ISBN: <input type="text" name="isbn" value="#(book.ISBN)#"><br>
-        Page Count: <input type="text" name="pageCount" value="#(book.PageCount)#"><br>
-        Publication Date: <input type="text" name="publicationDate" value="#(book.PublicationDate)#"><br>
-        Copies Available: <input type="text" name="copiesAvailable" value="#(book.CopiesAvailable)#"><br>
-        <input type="submit" value="Save">
+        <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+                <input class="input" type="text" name="title" value="#(book.Title)#">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Author</label>
+            <div class="control">
+                <input class="input" type="text" name="author" value="#(book.Author)#">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">ISBN</label>
+            <div class="control">
+                <input class="input" type="text" name="isbn" value="#(book.ISBN)#">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Page Count</label>
+            <div class="control">
+                <input class="input" type="number" name="pageCount" value="#(book.PageCount)#">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Publication Date</label>
+            <div class="control">
+                <input class="input" type="number" name="publicationDate" value="#(book.PublicationDate)#">
+            </div>
+        </div>
+        <div class="field">
+            <label class="label">Copies Available</label>
+            <div class="control">
+                <input class="input" type="number" name="copiesAvailable" value="#(book.CopiesAvailable)#">
+            </div>
+        </div>
+        <div class="control">
+            <button class="button is-primary" type="submit">Save</button>
+        </div>
     </form>
 </body>
 </html>
