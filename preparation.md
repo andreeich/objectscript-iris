@@ -28,3 +28,20 @@ Use implicit `join (->)`.
 Create a trigger and code to trigger it.
 Change Unique index to IDKEY and run script for creating objects from practice 4. See that the presentation in Globals changed.
 All methods should make sense
+
+## Laboratory \#7
+
+> Use CSP to create web pages that allow you to work with objects of a class from laboratory work №4.
+Use direct access to the database to display a table with all the objects of the chosen class and create buttons for editing, creating and deleting objects using services.
+Create a RESTful service and a corresponding client that allows you to edit, create and delete objects.
+Create a SOAP service and its corresponding client that allows you to edit, create and delete objects.
+
+### Web service
+
+- View book list by url `http://localhost:50407/csp/user/BookList.csp`
+
+- Add new a book by clicking the 'Create New Book' button
+
+- Edit a book by clicking 'Edit' icon near corresponding book's row
+
+- Delete an existing book by clicking 'Delete' icon near corresponding book's row

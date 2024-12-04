@@ -16,22 +16,26 @@ ClassMethod GetBooks() As %Status
 {
     Set tStatement = ##class(%SQL.Statement).%New()
     Set tQuery = "SELECT ID, Title, Author, ISBN, PageCount, PublicationDate, CopiesAvailable FROM Library.Book"
-    Do tStatement.%Prepare(tQuery)
-    Set tResult = tStatement.%Execute()
-    Set books = []
-    While tResult.%Next() {
-        Set book = ##class(%DynamicObject).%New()
-        Do book.%Set("ID", tResult.%Get("ID"))
-        Do book.%Set("Title", tResult.%Get("Title"))
-        Do book.%Set("Author", tResult.%Get("Author"))
-        Do book.%Set("ISBN", tResult.%Get("ISBN"))
-        Do book.%Set("PageCount", tResult.%Get("PageCount"))
-        Do book.%Set("PublicationDate", tResult.%Get("PublicationDate"))
-        Do book.%Set("CopiesAvailable", tResult.%Get("CopiesAvailable"))
-        Do books.%Push(book)
-    }
-    Do %response.SetStatus(200)
-    Do %response.ObjectToJSON(books)
+    #; Do tStatement.%Prepare(tQuery)
+    #; Set tResult = tStatement.%Execute()
+    #; Set books = []
+    #; While tResult.%Next() {
+    #;     Set book = ##class(%DynamicObject).%New()
+    #;     Do book.%Set("ID", tResult.%Get("ID"))
+    #;     Do book.%Set("Title", tResult.%Get("Title"))
+    #;     Do book.%Set("Author", tResult.%Get("Author"))
+    #;     Do book.%Set("ISBN", tResult.%Get("ISBN"))
+    #;     Do book.%Set("PageCount", tResult.%Get("PageCount"))
+    #;     Do book.%Set("PublicationDate", tResult.%Get("PublicationDate"))
+    #;     Do book.%Set("CopiesAvailable", tResult.%Get("CopiesAvailable"))
+    #;     Do books.%Push(book)
+    #; }
+    #; set sql = "SELECT ID As id, Name As name FROM Demo_Data.""Group"" "_
+ 	#; 			  "WHERE Faculty = "_facultyId_" ORDER BY name"
+
+    Do ##class(%ZEN.Auxiliary.jsonSQLProvider).%WriteJSONFromSQL(,tQuery)
+    #; Do %response.SetStatus(200)
+    #; Do books.ObjectToJSON(books)
     Quit $$$OK
 }
 
