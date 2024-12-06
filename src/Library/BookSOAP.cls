@@ -13,12 +13,13 @@ Method GetBooks() As %String [ WebMethod ]
   Set tQuery = "SELECT ID, Title, Author, ISBN, PageCount, PublicationDate, CopiesAvailable FROM Library.Book"
   Do tStatement.%Prepare(tQuery)
   Set tResult = tStatement.%Execute()
-  Set books = ##class(%ListOfDataTypes).%New()
+  Set books = ##class(%ArrayOfObjects).%New()
+  Set result = ""
   While tResult.%Next() {
       Set book = ##class(Library.Book).%OpenId(tResult.%Get("ID"))
-      Do books.Insert(book)
+      Set result = result _ " " _ book.Title
   }
-  Quit books
+  Quit result
 }
 
 Method GetBook(id As %String) As %String [ WebMethod ]
